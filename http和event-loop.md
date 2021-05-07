@@ -46,25 +46,25 @@ HTTP 请求方法一般分为 8 种，它们分别是
 以 http://www.example.com:80/path/to/myfile.html?key1=value1&key2=value2#SomewhereInTheDocumen 为例
 
 <div align="center">
-  <img src="https://user-gold-cdn.xitu.io/2020/1/10/16f8f773aee975ef?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""   style="zoom:50%;"  />
+  <img src="https://user-gold-cdn.xitu.io/2020/1/10/16f8f773aee975ef?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""   style="zoom:30%;"  />
 </div>
 
 ==http://== 告诉浏览器使用何种协议。对于大部分 Web 资源，通常使用 HTTP 协议或其安全版本，HTTPS 协议。另外，浏览器也知道如何处理其他协议。例如， ==mailto:== 协议指示浏览器打开邮件客户端；==ftp:== 协议指示浏览器处理文件传输。 ==file:///== 指示浏览器访问本地文件
 
 <div align="center">
-  <img src="https://user-gold-cdn.xitu.io/2020/1/10/16f8f773d35c1097?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""   style="zoom:50%;"  />
+  <img src="https://user-gold-cdn.xitu.io/2020/1/10/16f8f773d35c1097?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""   style="zoom:30%;"  />
 </div>
 
 两个主机之间要发起 TCP 连接需要两个条件，主机 + 端口。如果省略端口，那么 http 协议默认为**80**端口，https 默认为**443**端口
 
 <div align="center">
-  <img src="https://user-gold-cdn.xitu.io/2020/1/10/16f8f773d0294a55?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""   style="zoom:50%;"  />
+  <img src="https://user-gold-cdn.xitu.io/2020/1/10/16f8f773d0294a55?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""   style="zoom:30%;"  />
 </div>
 
 以端口后面的第一个 / 开始，到 ? 号之前结束，中间的 每一个/ 都代表了层级（上下级）关系。
 
 <div align="center">
-  <img src="https://user-gold-cdn.xitu.io/2020/1/10/16f8f773d4374cfe?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""   style="zoom:50%;"  />
+  <img src="https://user-gold-cdn.xitu.io/2020/1/10/16f8f773d4374cfe?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""   style="zoom:30%;"  />
 </div>
 
 紧跟着路径后面的是 ==查询参数==。 这些参数是用 & 符号分隔的键/值对列表。key1 = value1 是第一对，key2 = value2 是第二对参数
@@ -169,7 +169,9 @@ HTTP/1.1 规范定义了如下 47 种首部字段。
 Content-Disposition 响应头指示回复的内容该以何种形式展示，是以内联的形式（即网页或者页面的一部分），还是以附件的形式下载并保存到本地。
 
 `Content-Disposition: inline`
+
 `Content-Disposition: attachment`
+
 `Content-Disposition: attachment; filename="filename.jpg"`
 
 ### HTTP 状态码

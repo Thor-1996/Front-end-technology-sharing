@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul id="box"></ul>
+    <script>
+      console.time();
+      let ul = document.getElementById("box");
+      for (let i = 0; i < 100000; i++) {
+        let li = document.createElement("li");
+        li.innerHTML = i + 1;
+        ul.appendChild(li);
+      }
+      console.timeEnd();
+      // 共计耗时：992.712890625ms
+    </script>
+  </body>
+</html>

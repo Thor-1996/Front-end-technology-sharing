@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul id="box"></ul>
+    <script>
+      console.time();
+      let ul = document.getElementById("box");
+      function insert(curTotal, curIndex) {
+        if (curTotal <= 0) return;
+        window.requestAnimationFrame(() => {
+          let frame = document.createDocumentFragment();
+          for (let i = 0; i < 20; i++) {
+            let li = document.createElement("li");
+            li.innerHTML = curIndex + i + 1;
+            frame.appendChild(li);
+          }
+          ul.appendChild(frame);
+          insert(curTotal - 20, curIndex + 20);
+        });
+      }
+      insert(1000, 0);
+      console.timeEnd();
+      // default: 0.424072265625ms
+    </script>
+  </body>
+</html>

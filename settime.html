@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul id="box"></ul>
+    <script>
+      console.time();
+      let ul = document.getElementById("box");
+      let total = 100000;
+      let index = 0;
+      let pageSize = 20;
+      let totalPage = total / pageSize;
+
+      function insert(curTotal, curIndex) {
+        if (curTotal <= 0) {
+          return;
+        }
+
+        // for (let i = index; i < pageSize; i++) {
+        //   let li = document.createElement("li");
+        //   li.innerHTML = curIndex + 1 + i;
+        //   ul.appendChild(li);
+        // }
+
+        // insert(curTotal - pageSize, curIndex + pageSize);
+
+        setTimeout(() => {
+          for (let i = index; i < pageSize; i++) {
+            let li = document.createElement("li");
+            li.innerHTML = curIndex + 1 + i;
+            ul.appendChild(li);
+          }
+
+          insert(curTotal - pageSize, curIndex + pageSize);
+        }, 0);
+      }
+      insert(total, index);
+      console.timeEnd();
+      // 首次加载2000条时间：0.344970703125ms
+    </script>
+  </body>
+</html>
