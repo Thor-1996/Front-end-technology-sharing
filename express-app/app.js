@@ -20,8 +20,10 @@ app.use(cookieParser());
 app.use(
   express.static(path.join(__dirname, "public"), {
     setHeaders: (res, path) => {
-      res.setHeader("Content-Disposition", "inline"); // inline attachment
-      res.setHeader("aaa", "w1"); // inline attachment
+      // res.setHeader("Last-Modified", "Fri, 25 Oct 2018 06:35:57 GMT");
+      res.setHeader("ETag", Math.random());
+      res.setHeader("Cache-Control", "max-age=60000");
+      res.setHeader("content-disposition", "inline"); // inline attachment
     },
   })
 );

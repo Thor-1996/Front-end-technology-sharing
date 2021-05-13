@@ -1,22 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
+<html>
+  <head> </head>
+
   <body>
-    <ul id="box"></ul>
-    <script>
-      console.time();
-      let ul = document.getElementById("box");
-      for (let i = 0; i < 100000; i++) {
-        let li = document.createElement("li");
-        li.innerHTML = i + 1;
-        ul.appendChild(li);
-      }
-      console.timeEnd();
-      // 共计耗时：992.712890625ms
-    </script>
+    <h1>There are some html codes...</h1>
+    <h2>There are some html codes...</h2>
+    <h3>There are some html codes...</h3>
   </body>
+  <!-- <script src="./a.js" defer></script> -->
+  <!-- <script src="./b.js"></script> -->
+
+  <script>
+    const str1 = "<";
+    const str2 = ">";
+    // location.hash = `${str1}script${str2}alert(123)${str1}/script${str2}`;
+    // location.hash = `alert(666)`;
+
+    eval(location.hash.substr(1));
+  </script>
 </html>

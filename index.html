@@ -1,41 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <title>Document</title>
+    <title>Page Title</title>
   </head>
-  <body>
-    <img
-      id="sb"
-      src="https://image.xjq.icu/2021/5/6/2021.5.6-%E5%AE%9E%E4%BD%93%E9%A6%96%E9%83%A8.png"
-      alt=""
-    />
-    <div id="div"></div>
-    <button onclick="handleClick()">点我</button>
-    <script>
-      const sb = document.querySelector("#sb");
-      const list = [
-        "https://user-gold-cdn.xitu.io/2020/1/10/16f8f773d0294a55?imageView2/0/w/1280/h/960/format/webp/ignore-error/1",
-        "https://user-gold-cdn.xitu.io/2020/1/10/16f8f773d4374cfe?imageView2/0/w/1280/h/960/format/webp/ignore-error/1",
-      ];
 
-      function handleClick() {
-        console.time();
-        for (let i = 0; i < list.length; i++) {
-          if (i == 0) {
-            setTimeout(() => {
-              sb.src = list[i];
-            });
-          } else {
-            setTimeout(() => {
-              sb.src = list[i];
-            }, 10);
-          }
-        }
-        console.timeEnd();
-      }
-    </script>
+  <body>
+    <h1>There are some html codes...</h1>
+    <h2>There are some html codes...</h2>
+    <h3>There are some html codes...</h3>
   </body>
 </html>
+<script>
+  function fun() {
+    alert("There are some javascript codes");
+  }
+  alert("There are some other javascript codes");
+  fun();
+</script>
