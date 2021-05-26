@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello Event-Loop World!</title>
+  </head>
+  <body>
+    <button id="link">点我</button>
+    <script>
+      const link = document.getElementById("link");
+
+      link.addEventListener("click", (event) => {
+        console.log("第一个click");
+        Promise.resolve().then(() => {
+          console.log("Promise1");
+        });
+        Promise.resolve()
+          .then(() => {
+            console.log("Promise1.1");
+          })
+          .then(() => {
+            console.log("Promise1.2");
+          });
+      });
+
+      link.addEventListener("click", (event) => {
+        console.log("第二个click");
+        Promise.resolve().then(() => {
+          console.log("Promise2");
+        });
+      });
+
+      link.click();
+    </script>
+  </body>
+</html>

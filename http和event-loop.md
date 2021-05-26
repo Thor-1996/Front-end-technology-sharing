@@ -27,7 +27,9 @@
   <img src="https://user-gold-cdn.xitu.io/2020/1/10/16f8f77382f2e9cc?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt=""   style="zoom:33%;"  />
 </div>
 
-<p align="center">http报文结构</p>
+<div align="center">
+  <img src="https://image.xjq.icu/2021/5/26/2021.5.26-http%E8%AF%B7%E6%B1%82.png" alt=""   style="zoom:100%;"  />
+</div>
 
 #### 起始行
 
@@ -39,6 +41,16 @@ HTTP 请求方法一般分为 8 种，它们分别是
 
 <div align="center">
   <img src="https://images2018.cnblogs.com/blog/1418466/201808/1418466-20180810112625596-2103906128.png" alt=""   style="zoom:100%;"  />
+</div>
+
+patch 局部更新 put 全局更新
+
+connect HTTP 代理使用的就是 connect 这个方法，connect 在网页开发中不会使用到。
+
+option 请求是跨域请求中非简单请求会发出的预检请求
+
+<div align="center">
+  <img src="https://image.xjq.icu/2021/5/26/2021.5.26-%E7%AE%80%E5%8D%95%E8%AF%B7%E6%B1%82.png" alt=""   style="zoom:100%;"  />
 </div>
 
 ##### URL 统一资源定位符
@@ -71,65 +83,13 @@ HTTP 请求方法一般分为 8 种，它们分别是
 
 ##### HTTP 版本
 
-###### HTTP/0.9
+**HTTP/0.9**：功能简单，只支持 GET 方法，只能发送 HTML 格式字符串。
 
-HTTP 0.9 是最早发现的一个版本，在 1991 年发布，只接受 GET 一种请求方法，并且不支持请求头。只支持纯文本一种内容，服务器只能回应 HTML 格式的字符串，里边不能插入图片。HTTP 0.9 具有典型的无状态性，每个事务独立进行处理，事务结束时就释放这个连接。由此可见，HTTP 协议的无状态特点在其第一个版本 0.9 中已经成型。
+**HTTP/1.0**：支持多种数据格式，增加 POST、HEAD 等方法，增加头信息，每次只能发送一个请求（无持久连接）
 
-###### HTTP/1.0
+**HTTP/1.1**：默认持久连接、请求管道化（并发）、增加缓存处理、增加 Host 字段、支持断点传输分块传输等。
 
-1） HTTP 1.0 是 HTTP 协议的第二个版本在 1996 年发布，如今仍然被广泛使用，尤其是在代理服务器中。
-
-2） 1.0 版本不仅仅支持 GET 命令还有 POST 和 HEAD 等请求方法。
-
-3） HTTP 的请求和回应格式也发生了变化，除了要传输的数据之外，每次通信都包含头信息，用来描述一些信息。
-
-4） 不再局限于 0.9 版本的 HTML 格式，根据 Content-Type 可以支持多种数据格式，这使得互联网不仅仅可以用来传输文字，还可以传输图像、音频、视频等二进制文件。
-
-5） 同时也开始支持 cache，就是当客户端在规定时间内访问统一网站，直接访问 cache 即可。
-
-6） 除了数据部分，每次通信都必须包括头信息（HTTP header）。
-
-7） 其他的新增功能还包括状态码（status code）、多字符集支持、多部分发送（multi-part type）、权限（authorization）、缓存（cache）、内容编码（content encoding）等。
-
-8） 但是 1.0 版本的工作方式是每次 TCP 连接只能发送一个请求，当服务器响应后就会关闭这次连接，下一个请求需要再次建立 TCP 连接，就是不支持 keep-alive。 TCP 连接的建立成本很高，因为需要客户端和服务器三次握手，并且开始时发送速率较慢（slow start）。所以，HTTP 1.0 版本的性能比较差。随着网页加载的外部资源越来越多，这个问题就愈发突出了。为了解决这个问题，有些浏览器在请求时，用了一个非标准的 Connection 字段。
-
-###### HTTP/1.1
-
-1） 最大变化，就是引入了持久连接（persistent connection），即 TCP 连接默认不关闭，可以被多个请求复用，不用声明 Connection: keep-alive。客户端和服务器发现对方一段时间没有活动，就可以主动关闭连接。不过，规范的做法是，客户端在最后一个请求时，发送 Connection: close，明确要求服务器关闭 TCP 连接。
-
-2） 加入了管道机制，在同一个 TCP 连接里，允许多个请求同时发送，增加了并发性，进一步改善了 HTTP 协议的效率。举例来说，客户端需要请求两个资源。以前的做法是，在同一个 TCP 连接里面，先发送 A 请求，然后等待服务器做出回应，收到后再发出 B 请求。管道机制则是允许浏览器同时发出 A 请求和 B 请求，但是服务器还是按照顺序，先回应 A 请求，完成后再回应 B 请求。
-
-3） 一个 TCP 连接现在可以传送多个回应，势必就要有一种机制，区分数据包是属于哪一个回应的。这就是 Content-length 字段的作用，声明本次回应的数据长度。
-
-4） 分块传输编码，使用 Content-Length 字段的前提条件是，服务器发送回应之前，必须知道回应的数据长度。对于一些很耗时的动态操作来说，这意味着，服务器要等到所有操作完成，才能发送数据，显然这样的效率不高。更好的处理方法是，产生一块数据，就发送一块，采用"流模式"（stream）取代"缓存模式"（buffer）。因此，1.1 版规定可以不使用 Content-Length 字段，而使用"分块传输编码"（chunked transfer encoding）。只要请求或回应的头信息有 Transfer-Encoding 字段，就表明回应将由数量未定的数据块组成。
-
-5） 新增了请求方式 PUT、PATCH、OPTIONS、DELETE 等。
-
-6） 客户端请求的头信息新增了 Host 字段，用来指定服务器的域名。
-
-7） HTTP/1.1 支持文件断点续传，RANGE:bytes，HTTP/1.0 每次传送文件都是从文件头开始，即 0 字节处开始。RANGE:bytes=XXXX 表示要求服务器从文件 XXXX 字节处开始传送，断点续传。即返回码是 206（Partial Content）
-
-###### HTTP/2.0
-
-1）二进制协议： HTTP/1.1 版的头信息肯定是文本（ASCII 编码），数据体可以是文本，也可以是二进制。HTTP/2 则是一个彻底的二进制协议，头信息和数据体都是二进制，并且统称为"帧"（frame）：头信息帧和数据帧。
-
-2）多工： HTTP/2 复用 TCP 连接，在一个连接里，客户端和浏览器都可以同时发送多个请求或回应，而且不用按照顺序一一对应，这样就避免了"队头堵塞"（HTTP2.0 使用了多路复用的技术，做到同一个连接并发处理多个请求，而且并发请求的数量比 HTTP1.1 大了好几个数量级）。
-举例来说，在一个 TCP 连接里面，服务器同时收到了 A 请求和 B 请求，于是先回应 A 请求，结果发现处理过程非常耗时，于是就发送 A 请求已经处理好的部分， 接着回应 B 请求，完成后，再发送 A 请求剩下的部分。
-
-3）头信息压缩： HTTP 协议不带有状态，每次请求都必须附上所有信息。所以，请求的很多字段都是重复的，比如 Cookie 和 User Agent，一模一样的内容，每次请求都必须附带，这会浪费很多带宽，也影响速度。
-HTTP/2 对这一点做了优化，引入了头信息压缩机制（header compression）。一方面，头信息使用 gzip 或 compress 压缩后再发送；另一方面，客户端和服务器同时维护一张头信息表，所有字段都会存入这个表，生成一个索引号，以后就不发送同样字段了，只发送索引号，这样就提高速度了。
-
-4）服务器推送： HTTP/2 允许服务器未经请求，主动向客户端发送资源，这叫做服务器推送（server push）。
-
-意思是说，当我们对支持 HTTP2.0 的 web server 请求数据的时候，服务器会顺便把一些客户端需要的资源一起推送到客户端，免得客户端再次创建连接发送请求到服务器端获取。这种方式非常合适加载静态资源。
-服务器端推送的这些资源其实存在客户端的某处地方，客户端直接从本地加载这些资源就可以了，不用走网络，速度自然是快很多的。
-
-###### 总结
-
-HTTP/0.9：功能捡漏，只支持 GET 方法，只能发送 HTML 格式字符串。
-HTTP/1.0：支持多种数据格式，增加 POST、HEAD 等方法，增加头信息，每次只能发送一个请求（无持久连接）
-HTTP/1.1：默认持久连接、请求管道化、增加缓存处理、增加 Host 字段、支持断点传输分块传输等。
-HTTP/2.0：二进制分帧、多路复用、头部压缩、服务器推送
+**HTTP/2.0**：二进制分帧、多路复用、头部压缩、服务器推送
 
 ### HTTP 首部字段
 
@@ -166,14 +126,6 @@ HTTP/1.1 规范定义了如下 47 种首部字段。
   <img src="https://image.xjq.icu/2021/5/6/2021.5.6-%E5%AE%9E%E4%BD%93%E9%A6%96%E9%83%A8.png" alt=""   style="zoom:90%;"  />
 </div>
 
-Content-Disposition 响应头指示回复的内容该以何种形式展示，是以内联的形式（即网页或者页面的一部分），还是以附件的形式下载并保存到本地。
-
-`Content-Disposition: inline`
-
-`Content-Disposition: attachment`
-
-`Content-Disposition: attachment; filename="filename.jpg"`
-
 ### HTTP 状态码
 
 | 类别 | 描述         |    举例 |
@@ -184,41 +136,179 @@ Content-Disposition 响应头指示回复的内容该以何种形式展示，是
 | 4xx  | 客户端错误   | 401 404 |
 | 5xx  | 服务端错误   | 503 505 |
 
+### 实际运用
+
+- 下载图片文件
+- 资源重定向
+- 强缓存和协商缓存
+- referer 防盗链处理
+- cookie 通信
+- csrf 防御监控 content-type 请求 MIME 类型为图片，返回的 MIME 类型为 Text,JSON,HTML
+- 等等...
+
 ### 跨域的形成原因及解决方式
 
-产生原因：**浏览器的同源策略**
+产生原因：**浏览器的同源策略** 相同协议 相同域名 相同端口号 才是同源；
+注意：本地 ip 请求 localhost 也是跨域请求
 
 解决措施：
 
-- 反向代理：服务器通信不存在跨域限制
+- 反向代理：浏览器与服务器存在同源策略限制，服务器与服务器通信不存在同源策略限制
+
+  浏览器 --> 代理服务器 --> 目标服务器
+  目标服务器 --> 代理服务器 --> 浏览器
+
 - CORS 跨域资源共享，实现 CORS 通信的关键是服务器。只要服务器实现了 CORS 接口，就可以跨源通信。
-- JSONP 动态创建 script 标签，并且调用预先约定的回调函数
+
+Access-Control-Allow-Origin: \* / http://localhost:8080
+Access-Control-Allow-Metheds: get post
+
+Access-Control-Allow-Credentials: true;
+同时前端 ajax 请求配置 withCredentials:true; 才可以携带跨域 cookie
+
+- JSONP 动态创建 script 标签，并且调用预先约定的回调函数（一般不用）
 
 ## Part2 javascript 之 Event Loop
-
-### 什么是事件循环（Event Loop）?
-
-Javascript 遇到**同步任务**直接执行，遇到**异步任务**，将其放到**任务队列**等待**主线程**同步任务执行完毕，再依次读取任务队列的异步任务执行。
 
 ### 处理异步的 4 种方式
 
 - 回调函数（callback）
 - Promise
-- generator yield
+- generator yield（一般不用）
 - async await
 
-**例题：输出打印顺序**
+回调
+
+```javascript
+navigator.geolocation.getCurrentPosition(
+  (res) => {
+    console.log(res);
+  },
+  (err) => {
+    console.log(err);
+  }
+);
+```
+
+promise
+
+```javascript
+function getCurrentPosition() {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      (res) => {
+        resolve(res);
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
+}
+
+getCurrentPosition()
+  .then((res) => {
+    console.log(res);
+  })
+  .then((err) => {
+    console.log(err);
+  });
+```
+
+async await
+
+```javascript
+function getCurrentPosition() {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      (res) => {
+        resolve(res);
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
+}
+
+async function task() {
+  try {
+    const res = await getCurrentPosition();
+    console.log(res);
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+
+### 什么是事件循环（Event Loop）?
+
+（1）所有同步任务都在主线程上执行，形成一个执行栈
+
+（2）主线程之外，还存在一个"任务队列"。遇到异步任务，就将其放在"任务队列"
+
+（3）一旦"执行栈"中的所有同步任务执行完毕，系统就会读取"任务队列"的任务，并放入执行栈。
+
+（4）主线程不断重复上面的三步，直至所有任务执行完毕。
+
+输出打印顺序：
+
+```javascript
+setTimeout(() => {
+  console.log("timeout");
+}, 0);
+
+new Promise((resolve) => {
+  console.log("promise1");
+  resolve();
+}).then(() => {
+  console.log("promise2");
+});
+
+console.log("start");
+```
+
+```javascript
+Promise.resolve().then(() => {
+  console.log("1");
+  setTimeout(() => {
+    console.log("2");
+  }, 0);
+});
+setTimeout(() => {
+  console.log("3");
+  Promise.resolve().then(() => {
+    console.log("4");
+  });
+}, 0);
+```
+
+```javascript
+setTimeout(() => {
+  console.log("t1");
+  Promise.resolve().then(() => {
+    console.log("p1");
+  });
+}, 0);
+
+setTimeout(() => {
+  console.log("t2");
+  Promise.resolve().then(() => {
+    console.log("p2");
+  });
+}, 0);
+```
 
 ```javascript
 function fun1() {
   console.log("fun1");
   return new Promise((resolve) => {
-    console.log("promise1");
-    resolve();
-    console.log("promise2");
     setTimeout(() => {
       console.log("time1");
     }, 0);
+
+    console.log("promise1");
+    resolve();
   }).then(() => {
     setTimeout(() => {
       console.log("time2");
@@ -234,17 +324,12 @@ function fun2() {
   }, 0);
 }
 
-async function fun3() {
-  console.log("fun3-1");
-  await fun2();
-  console.log("fun3-2");
-}
-
 setTimeout(() => {
   console.log("time4");
 }, 0);
+
 fun1();
 console.log("start");
-fun3();
+fun2();
 console.log("end");
 ```
